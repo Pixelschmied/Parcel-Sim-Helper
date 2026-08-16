@@ -6,8 +6,7 @@ prohibited contents, accepted countries, valid stamps and weight classes.
 
 Meant as a second-monitor or phone cheat sheet next to the running game.
 
-**➜ [Open the page](https://YOUR-NAME.github.io/parcel-simulator-helper/)**
-<!-- Replace with the real address once GitHub Pages is enabled. -->
+**➜ [Open the page](https://pixelschmied.github.io/Parcel-Sim-Helper/)**
 
 ---
 
@@ -54,7 +53,7 @@ what is printed on the parcel label character for character.
 No build step, no package manager. Opening `index.html` in a browser is enough.
 
 ```bash
-git clone https://github.com/YOUR-NAME/parcel-simulator-helper.git
+git clone https://github.com/pixelschmied/Parcel-Sim-Helper.git
 ```
 
 Layout:
