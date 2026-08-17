@@ -6,12 +6,7 @@
 <title>Parcel Simulator</title>
 <style>
   :root {
-    /* Eine Einheit, die an der knapperen Bildschirmachse hängt.
-       Alle Größen leiten sich davon ab -> nichts läuft je aus dem Bild. */
     --u: min(1.05vw, 1.85vh);
-
-    /* Schriftgrößen wachsen mit --u, fallen aber nie unter eine
-       lesbare Untergrenze. Deshalb überall max(px, calc(...)). */
     --fs-day:     max(13px,   calc(var(--u) * .72));
     --fs-chip:    max(11.5px, calc(var(--u) * .68));
     --fs-label:   max(10px,   calc(var(--u) * .62));
@@ -21,10 +16,7 @@
     --fs-caption: max(10.5px, calc(var(--u) * .6));
     --fs-country: max(11px,   calc(var(--u) * .74));
     --fs-kg:      max(10.5px, calc(var(--u) * .64));
-
-    /* Mindestgröße für alles, was mit dem Finger getroffen wird */
     --touch: 0px;
-
     --bg:      #0a0a0a;
     --panel:   #161616;
     --panel-2: #1e1e1e;
@@ -34,9 +26,7 @@
     --muted:   #8e8e8e;
     --hi:      #e8b93b;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body {
     height: 100%;
     overflow: hidden;
@@ -44,9 +34,7 @@
     color: var(--text);
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
   }
-
   img, svg { display: block; }
-
   #app {
     height: 100%;
     display: grid;
@@ -54,8 +42,6 @@
     gap: calc(var(--u) * .55);
     padding: calc(var(--u) * .6);
   }
-
-  /* ================= Kopfleiste ===================================== */
   #bar {
     display: flex;
     align-items: stretch;
@@ -66,7 +52,6 @@
     padding: calc(var(--u) * .45) calc(var(--u) * .7);
     min-height: 0;
   }
-
   .bar-label {
     font-size: var(--fs-label);
     font-weight: 800;
@@ -75,8 +60,6 @@
     color: var(--muted);
     white-space: nowrap;
   }
-
-  /* --- Tagesauswahl --- */
   #days {
     display: flex;
     align-items: center;
@@ -104,10 +87,7 @@
     color: #1a1400;
   }
   #days button:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
-
   .sep { width: 1px; background: var(--line-2); flex: none; }
-
-  /* --- aktuell angebotene Frachttypen --- */
   #offered {
     flex: 1;
     min-width: 0;
@@ -129,9 +109,6 @@
     letter-spacing: .06em;
   }
   #offered .empty { font-size: var(--fs-chip); color: var(--muted); }
-
-  /* Kurzhinweis der Kopfleiste. Steht hinter den Icons und nimmt den
-     Restplatz ein — wird also als Erstes gekürzt, wenn es eng wird. */
   #offered .bar-hint {
     flex: 1 1 auto;
     min-width: 0;
@@ -143,8 +120,6 @@
     text-overflow: ellipsis;
     padding-inline-start: calc(var(--u) * .3);
   }
-
-  /* --- Sprachauswahl --- */
   #lang { position: relative; flex: none; display: flex; align-items: center; }
   #lang > button {
     display: flex;
@@ -164,7 +139,6 @@
   #lang > button:hover { border-color: #4a4a4a; }
   #lang > button:focus-visible { outline: 2px solid var(--hi); outline-offset: 2px; }
   #lang .caret { font-size: max(10px, calc(var(--u) * .5)); color: var(--muted); }
-
   .flag {
     width: calc(var(--u) * 1.5);
     height: calc(var(--u) * 1);
@@ -173,7 +147,6 @@
     outline-offset: -1px;
     flex: none;
   }
-
   #langMenu {
     position: absolute;
     top: calc(100% + var(--u) * .35);
@@ -208,8 +181,6 @@
   }
   #langMenu button:hover { background: #2a2a2a; }
   #langMenu button[aria-current="true"] { color: var(--hi); font-weight: 700; }
-
-  /* ================= Karten ========================================= */
   main {
     display: grid;
     gap: calc(var(--u) * .55);
@@ -217,11 +188,10 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
     grid-template-rows: minmax(0, 1.18fr) minmax(0, .84fr) minmax(0, .92fr);
     grid-template-areas:
-      "items   countries"
+      "items  countries"
       "stamps  countries"
       "weights countries";
   }
-
   .card {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -232,7 +202,6 @@
     min-height: 0;
     min-width: 0;
   }
-
   .card > h2 {
     flex: none;
     display: flex;
@@ -258,24 +227,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   .a-items     { grid-area: items; }
   .a-stamps    { grid-area: stamps; }
   .a-weights   { grid-area: weights; }
   .a-countries { grid-area: countries; }
-
-  /* Bilder ohne Rahmen dürfen ihre Zelle füllen — der Freiraum von
-     object-fit ist unsichtbar, weil kein Rahmen daran hängt.
-     Die max-width-Grenzen verhindern starkes Hochskalieren. */
   .fill {
     width: 100%;
     height: 100%;
     object-fit: contain;
   }
-
-  /* Bilder MIT Rahmen (Flaggen) bekommen eine Box im exakten
-     Seitenverhältnis des Assets — so liegt der Rahmen am Bild an und
-     es entsteht keine leere Fläche darunter. */
   .frame {
     width: 100%;
     max-height: 100%;
@@ -284,17 +244,12 @@
     overflow: hidden;
   }
   .frame img { width: 100%; height: 100%; }
-
-  /* Motivfreigestellte Fotos bleiben bei ihrer Originalgröße — kein
-     Hochskalieren, damit sie scharf bleiben. */
   .fit {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
   }
-
-  /* --- Verbotene Inhalte --- */
   .items {
     flex: 1;
     min-height: 0;
@@ -318,8 +273,6 @@
     text-align: center;
     overflow: hidden;
   }
-
-  /* --- Stempel / Gewichtsklassen --- */
   .strip {
     flex: 1;
     min-height: 0;
@@ -345,10 +298,6 @@
     color: var(--muted);
     white-space: nowrap;
   }
-
-  /* --- Länder --- */
-  /* Spalten-/Zeilenzahl wird in layoutCountries() aus dem tatsächlichen
-     Platz berechnet, damit die Flaggen so groß wie möglich werden. */
   .countries {
     flex: 1;
     min-height: 0;
@@ -378,11 +327,8 @@
     border-radius: calc(var(--u) * .15);
     align-self: start;
   }
-
-  /* ================= Hoch- und Schmalformate ======================== */
   @media (max-aspect-ratio: 23/20) {
     :root { --u: min(2.3vw, 1.35vh); }
-
     main {
       grid-template-columns: minmax(0, 1fr);
       grid-template-rows: minmax(0, 1.1fr) minmax(0, 2.2fr) minmax(0, .85fr) minmax(0, .9fr);
@@ -390,27 +336,15 @@
     }
     #bar { flex-wrap: wrap; }
   }
-
-  /* Sehr breite Bildschirme: Kopfzeile darf großzügiger atmen */
   @media (min-aspect-ratio: 2/1) {
     :root { --u: min(.72vw, 1.85vh); }
   }
-
-  /* ================= Kompaktmodus (Handy, kleine Fenster) ===========
-     Ab hier zählt Bedienbarkeit mehr als Vollständigkeit: Überschriften
-     und Hinweistexte entfallen komplett, der gewonnene Platz geht an die
-     Inhalte, und alles Anklickbare bekommt Fingergröße. */
   @media (max-width: 720px), (max-height: 520px) {
     :root { --touch: 42px; }
-
     #app  { gap: 6px; padding: 6px; }
     #bar  { flex-wrap: wrap; gap: 6px; padding: 6px; border-radius: 8px; }
     .card { padding: 7px 8px 8px; border-radius: 8px; }
-
-    /* Blockkopf ersatzlos raus — spart auf vier Karten spürbar Höhe */
     .card > h2 { display: none; }
-
-    /* Tagesauswahl bekommt eine eigene volle Zeile */
     #days { flex: 1 1 100%; gap: 4px; }
     #days button {
       flex: 1 1 0;
@@ -420,29 +354,18 @@
       border-radius: 6px;
     }
     .sep { display: none; }
-
-    /* In der zweiten Zeile bleiben nur die Frachttyp-Icons */
     #offered { gap: 10px; }
     #offered .bar-label,
     #offered .bar-hint { display: none; }
     #offered .chip img { height: 22px; }
-
-    /* Sprachknopf auf Flagge eindampfen, Menü mit Fingerabständen */
     #lang > button { min-width: var(--touch); justify-content: center; border-radius: 6px; }
     #lang > button .lang-name { display: none; }
     .flag { width: 26px; height: 17px; }
     #langMenu button { gap: 10px; padding: 0 14px 0 8px; }
-
-    /* Fünf Spalten sind für Bildunterschriften zu schmal */
     .items { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
     .strip { gap: 8px; }
     .strip .cell { max-width: 110px; }
   }
-
-  /* Hochkant auf dem Handy: Stempel und Gewichte sind quadratisch und
-     damit durch die Breite begrenzt — feste Anteile würden ihnen Höhe
-     geben, die sie nicht nutzen können. Sie bekommen daher nur, was sie
-     brauchen; der Rest geht an Inhalte und Flaggen. */
   @media (max-width: 720px) and (max-aspect-ratio: 23/20) {
     main {
       grid-template-rows: minmax(0, 1.35fr) minmax(0, 2.4fr) auto auto;
@@ -480,42 +403,29 @@
     </section>
   </main>
 </div>
-
 <script src="i18n.js"></script>
 <script src="flags.js"></script>
 <script>
-/* ================= Spieldaten ====================================== *
- * Reihenfolge der Tage: Montag .. Sonntag                             */
 const FREIGHT = [
   { id: 'lkw',      key: 'truck', days: [1, 1, 1, 1, 1, 1, 1] },
   { id: 'zug',      key: 'train', days: [1, 1, 1, 1, 1, 0, 0] },
   { id: 'flugzeug', key: 'plane', days: [0, 0, 1, 0, 1, 0, 0] },
   { id: 'schiff',   key: 'ship',  days: [0, 1, 0, 0, 0, 0, 0] }
 ];
-
 const ITEMS = [
   ['chemikalien', 'iChem'], ['gaskanister', 'iGas'], ['batterien', 'iBat'],
   ['bargeld', 'iCash'], ['messer', 'iKnife']
 ];
-
 const COUNTRIES = [
   'Cristin', 'Impland', 'Jonathia', 'Kongradi', 'Ligbal', 'Mahteen',
   'Molland', 'Pruania', 'Sowport', 'Strentom', 'Vocua', 'Yatdanica'
 ];
-
 const WEIGHTS = [['a', 5], ['b', 10], ['c', 15], ['d', 20], ['e', 30]];
-
-/* Bildquelle. Normalerweise die Datei neben der Seite; in der
-   Einzeldatei-Fassung liegt stattdessen alles als Data-URI in
-   window.ASSETS (siehe tools/build-standalone.ps1). */
 const asset = name => (window.ASSETS && window.ASSETS[name]) || 'assets/' + name;
-
-/* ================= Zustand ========================================= */
 const store = {
   get(k, fallback) { try { return localStorage.getItem(k) || fallback; } catch (e) { return fallback; } },
-  set(k, v)        { try { localStorage.setItem(k, v); } catch (e) { /* privater Modus */ } }
+  set(k, v)        { try { localStorage.setItem(k, v); } catch (e) { } }
 };
-
 function detectLang() {
   const saved = store.get('psh.lang', '');
   if (I18N[saved]) return saved;
@@ -529,64 +439,47 @@ function detectLang() {
   }
   return 'de';
 }
-
 let lang = detectLang();
-
-// Der Spieltag hat nichts mit dem echten Datum zu tun, deshalb gibt es
-// keine „heute“-Vorauswahl: es gilt der zuletzt gewählte Tag, sonst Montag.
 let day = parseInt(store.get('psh.day', '0'), 10);
 if (!(day >= 0 && day <= 6)) day = 0;
-
-/* ================= Aufbau ========================================== */
 const el = id => document.getElementById(id);
 const t = () => I18N[lang];
-
 function renderStatic() {
   const L = t();
   document.documentElement.lang = lang;
   document.title = 'Parcel Simulator — ' + L.title;
-
   document.querySelectorAll('[data-t]').forEach(n => { n.textContent = L[n.dataset.t]; });
-
   el('items').innerHTML = ITEMS.map(([id, key]) => `
     <figure>
       <img class="fit" src="${asset('item-' + id + '.png')}" alt="">
       <figcaption>${L[key]}</figcaption>
     </figure>`).join('');
-
   el('stamps').innerHTML = [1, 2, 3, 4, 5].map(n => `
     <div class="cell"><img class="fill" src="${asset('stamp-' + n + '.png')}" alt=""></div>`).join('');
-
   el('weights').innerHTML = WEIGHTS.map(([id, kg]) => `
     <div class="cell">
       <img class="fill" src="${asset('weight-' + id + '.png')}" alt="${id.toUpperCase()}">
       <span class="kg">0 – ${kg} kg</span>
     </div>`).join('');
-
   el('countries').innerHTML = COUNTRIES.map(n => `
     <div class="land">
       <b>${n}</b>
       <div class="frame"><img src="${asset('flag-' + n.toLowerCase() + '.png')}" alt="${n}"></div>
     </div>`).join('');
-
   el('days').innerHTML = L.days.map((d, i) =>
     `<button type="button" data-day="${i}" aria-pressed="${i === day}">${d}</button>`).join('');
-
   el('langBtn').innerHTML =
     flagSvg(L.flag) + `<span class="lang-name">${L.name}</span><span class="caret">▾</span>`;
   el('langBtn').setAttribute('aria-label', L.language + ': ' + L.name);
-
   el('langMenu').innerHTML = Object.entries(I18N).map(([code, v]) =>
     `<button type="button" role="menuitem" data-lang="${code}"
        aria-current="${code === lang}">${flagSvg(v.flag)}<span>${v.name}</span></button>`).join('');
 }
-
 function renderDay() {
   const L = t();
   el('days').querySelectorAll('button').forEach(b => {
     b.setAttribute('aria-pressed', String(+b.dataset.day === day));
   });
-
   const active = FREIGHT.filter(f => f.days[day]);
   el('offered').innerHTML =
     `<span class="bar-label">${L.shipping}</span>` +
@@ -596,26 +489,19 @@ function renderDay() {
       : `<span class="empty">${L.none}</span>`) +
     `<em class="bar-hint">${L.shippingHint}</em>`;
 }
-
-/* Wählt die Spalten-/Zeilenaufteilung der Länder so, dass die Flaggen
-   maximal groß werden und trotzdem vollständig in die Karte passen. */
 const FLAG_AR = 318 / 188;
-
 function layoutCountries() {
   const g = el('countries');
   const land = g.querySelector('.land');
   if (!land) return;
-
   const gs = getComputedStyle(g);
   const gx = parseFloat(gs.columnGap) || 0;
   const gy = parseFloat(gs.rowGap) || 0;
   const W = g.clientWidth;
   const H = g.clientHeight;
-
   const ls = getComputedStyle(land);
   const nameH = land.querySelector('b').getBoundingClientRect().height +
                 (parseFloat(ls.rowGap) || 0);
-
   let best = null;
   for (const cols of [2, 3, 4, 6]) {
     const rows = Math.ceil(COUNTRIES.length / cols);
@@ -624,12 +510,9 @@ function layoutCountries() {
     const w = Math.min(byWidth, byHeight);
     if (!best || w > best.w) best = { cols, rows, w };
   }
-
   g.style.gridTemplateColumns = `repeat(${best.cols}, minmax(0, 1fr))`;
   g.style.gridTemplateRows = `repeat(${best.rows}, minmax(0, 1fr))`;
 }
-
-/* ================= Interaktion ===================================== */
 el('days').addEventListener('click', e => {
   const b = e.target.closest('button[data-day]');
   if (!b) return;
@@ -637,14 +520,12 @@ el('days').addEventListener('click', e => {
   store.set('psh.day', String(day));
   renderDay();
 });
-
 el('langBtn').addEventListener('click', e => {
   e.stopPropagation();
   const m = el('langMenu');
   const open = m.classList.toggle('open');
   el('langBtn').setAttribute('aria-expanded', String(open));
 });
-
 el('langMenu').addEventListener('click', e => {
   const b = e.target.closest('button[data-lang]');
   if (!b) return;
@@ -656,7 +537,6 @@ el('langMenu').addEventListener('click', e => {
   renderDay();
   layoutCountries();
 });
-
 document.addEventListener('click', () => {
   el('langMenu').classList.remove('open');
   el('langBtn').setAttribute('aria-expanded', 'false');
@@ -667,9 +547,30 @@ document.addEventListener('keydown', e => {
     el('langBtn').setAttribute('aria-expanded', 'false');
   }
 });
-
+let wakeLock = null;
+async function requestWakeLock() {
+  if ('wakeLock' in navigator) {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+    } catch (err) {}
+  }
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    requestWakeLock();
+  }
+});
+requestWakeLock();
+document.body.addEventListener('click', () => {
+  if (!wakeLock) requestWakeLock();
+}, { once: true });
+const keepAliveEl = document.createElement('div');
+keepAliveEl.style.cssText = 'position:fixed; top:0; left:0; width:1px; height:1px; opacity:0; pointer-events:none; z-index:-1;';
+document.body.appendChild(keepAliveEl);
+setInterval(() => {
+  keepAliveEl.style.opacity = keepAliveEl.style.opacity === '0' ? '0.01' : '0';
+}, 30000);
 addEventListener('resize', layoutCountries);
-
 renderStatic();
 renderDay();
 layoutCountries();
